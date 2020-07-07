@@ -1,0 +1,422 @@
+-- phpMyAdmin SQL Dump
+-- version 4.0.10deb1ubuntu0.1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Sep 20, 2018 at 01:13 AM
+-- Server version: 5.5.61-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.26
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `knikola`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Building`
+--
+
+CREATE TABLE IF NOT EXISTS `Building` (
+  `ID` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `Code` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `Name` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `Description` varchar(1000) CHARACTER SET latin1 DEFAULT NULL,
+  `Latitude` double DEFAULT NULL,
+  `Longitude` double DEFAULT NULL,
+  `Status` int(6) unsigned NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=75830557 ;
+
+--
+-- Dumping data for table `Building`
+--
+
+INSERT INTO `Building` (`ID`, `Code`, `Name`, `Description`, `Latitude`, `Longitude`, `Status`) VALUES
+(6, '0010001', 'ETF', 'Elektrotehnicki fakultet', 44.766631, 17.187027, 1),
+(7, '0010002', 'Ferhadija', 'Ferhat Pasina Dzamija4', 44.767429, 17.187311, 1),
+(75830556, '0010003', 'Kastel', 'Banjalucki Stari Grad', 44.766481, 17.19016, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Calling`
+--
+
+CREATE TABLE IF NOT EXISTS `Calling` (
+  `ID` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `Name` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=127 ;
+
+--
+-- Dumping data for table `Calling`
+--
+
+INSERT INTO `Calling` (`ID`, `Name`) VALUES
+(124, 'Profesor'),
+(125, 'Administrator'),
+(126, 'Student');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Category`
+--
+
+CREATE TABLE IF NOT EXISTS `Category` (
+  `ID` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `Name` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `Category`
+--
+
+INSERT INTO `Category` (`ID`, `Name`) VALUES
+(6, 'Projektor'),
+(7, 'Monitor'),
+(8, 'Racunar');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Condition`
+--
+
+CREATE TABLE IF NOT EXISTS `Condition` (
+  `ID` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `Name` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `Condition`
+--
+
+INSERT INTO `Condition` (`ID`, `Name`) VALUES
+(6, 'Funkcionalno'),
+(7, 'Osteceno'),
+(8, 'Unisteno');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Person`
+--
+
+CREATE TABLE IF NOT EXISTS `Person` (
+  `ID` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `FirstName` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `LastName` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `CallingID` int(6) unsigned DEFAULT NULL,
+  `UIN` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `Employment` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `Contact` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `Status` int(6) unsigned DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FKCallingIDforPerson` (`CallingID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=261699 ;
+
+--
+-- Dumping data for table `Person`
+--
+
+INSERT INTO `Person` (`ID`, `FirstName`, `LastName`, `CallingID`, `UIN`, `Employment`, `Contact`, `Status`) VALUES
+(124, 'Mitar', 'Miric', 124, '15091977', 'Sef osoblja', '053/333-222', 1),
+(125, 'Nikola', 'Nikolic', 125, '13041969', 'Cistac rekova', '053/111-222', 1),
+(126, 'Marko', 'Markovic', 126, '15071996', 'Predstavnik studenata', '065/966-699', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `PrimaryResource`
+--
+
+CREATE TABLE IF NOT EXISTS `PrimaryResource` (
+  `ID` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `InventoryNumber` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `Name` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `Description` varchar(1000) CHARACTER SET latin1 DEFAULT NULL,
+  `DateOfPurchase` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `Value` double DEFAULT NULL,
+  `Ammortization` double DEFAULT NULL,
+  `Location` varchar(1000) CHARACTER SET latin1 DEFAULT NULL,
+  `Status` int(6) unsigned DEFAULT NULL,
+  `ConditionID` int(6) unsigned DEFAULT NULL,
+  `CategoryID` int(6) unsigned DEFAULT NULL,
+  `RoomID` int(6) unsigned DEFAULT NULL,
+  `PersonID` int(6) unsigned DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FKCategoryIDforPrimaryResource` (`CategoryID`),
+  KEY `FKConditionIDforPrimaryResource` (`ConditionID`),
+  KEY `FKPersonIDforPrimaryResource` (`PersonID`),
+  KEY `FKRoomIDforPrimaryResource` (`RoomID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=489 ;
+
+--
+-- Dumping data for table `PrimaryResource`
+--
+
+INSERT INTO `PrimaryResource` (`ID`, `InventoryNumber`, `Name`, `Description`, `DateOfPurchase`, `Value`, `Ammortization`, `Location`, `Status`, `ConditionID`, `CategoryID`, `RoomID`, `PersonID`) VALUES
+(6, 'P001G17', 'Asus projektor', 'Malen, crn', '2017-08-12', 150, 9, 'Na plafonu', 1, 6, 6, 6, 126),
+(7, 'P002G18', 'Asus projektor', 'Malen, crn', '2018-04-04', 200, 12, 'Na plafonu', 1, 6, 6, 7, 125),
+(55, '1', '1', '1', '2018-09-18', 2, 1, '1', 1, 7, 6, 6, 125),
+(57, 'M001G18', 'LG monitor', '17"', '2018-04-18', 300, 5, 'Na katedri', 1, 7, 7, 6, 125);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Room`
+--
+
+CREATE TABLE IF NOT EXISTS `Room` (
+  `ID` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `Code` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `Name` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `Description` varchar(1000) CHARACTER SET latin1 DEFAULT NULL,
+  `Status` int(6) unsigned DEFAULT NULL,
+  `BuildingID` int(6) unsigned NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FKBuildingIDforRoom` (`BuildingID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=44383790 ;
+
+--
+-- Dumping data for table `Room`
+--
+
+INSERT INTO `Room` (`ID`, `Code`, `Name`, `Description`, `Status`, `BuildingID`) VALUES
+(6, '01001', 'Ledara', 'Hladna prostorija', 1, 6),
+(7, '02007', 'Vrucara', 'Vruca prostorija', 1, 6);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Transit`
+--
+
+CREATE TABLE IF NOT EXISTS `Transit` (
+  `ID` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `DateAndTime` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `RoomIDFrom` int(6) unsigned DEFAULT NULL,
+  `RoomIDTo` int(6) unsigned DEFAULT NULL,
+  `PersonIDFrom` int(6) unsigned DEFAULT NULL,
+  `PersonIDTo` int(6) unsigned DEFAULT NULL,
+  `PrimaryResourceID` int(6) unsigned DEFAULT NULL,
+  `Status` int(6) unsigned DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FKRoomIDFromforTransit` (`RoomIDFrom`),
+  KEY `FKRoomIDToforTransit` (`RoomIDTo`),
+  KEY `FKPersonIdFromforTransit` (`PersonIDFrom`),
+  KEY `FKPersonIdToforTransit` (`PersonIDTo`),
+  KEY `FKPrimaryResourceIDforTransit` (`PrimaryResourceID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6978 ;
+
+--
+-- Dumping data for table `Transit`
+--
+
+INSERT INTO `Transit` (`ID`, `DateAndTime`, `RoomIDFrom`, `RoomIDTo`, `PersonIDFrom`, `PersonIDTo`, `PrimaryResourceID`, `Status`) VALUES
+(7, '2018-09-19', 7, 6, 124, 124, 6, 1),
+(14, '2018-09-18 04:17:27', 6, 6, 124, 125, 57, 1),
+(21, '2018-09-12', 6, 7, 126, 126, 6, 1),
+(22, '2018-09-13', 7, 6, 126, 126, 6, 1),
+(23, '2018-09-03', 7, 7, 125, 126, 7, 1),
+(24, '2018-09-04', 7, 7, 126, 125, 7, 1),
+(25, '2018-09-18 04:16:23', 6, 7, 125, 125, 57, 1),
+(26, '2018-09-18 04:16:46', 7, 6, 125, 125, 57, 1),
+(27, '2018-09-18 04:17:13', 6, 6, 125, 124, 57, 1),
+(612, '2018-09-18 12:47:48', 7, 6, 124, 124, 55, 1),
+(6977, '2018-09-18 12:48:02', 6, 6, 124, 125, 55, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lab7_auth_assignment`
+--
+
+CREATE TABLE IF NOT EXISTS `lab7_auth_assignment` (
+  `item_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`item_name`,`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `lab7_auth_assignment`
+--
+
+INSERT INTO `lab7_auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
+('employee', 2, 1536760509),
+('theCreator', 1, 1536760509);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lab7_auth_item`
+--
+
+CREATE TABLE IF NOT EXISTS `lab7_auth_item` (
+  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `type` int(11) NOT NULL,
+  `description` text COLLATE utf8_unicode_ci,
+  `rule_name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `data` text COLLATE utf8_unicode_ci,
+  `created_at` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`name`),
+  KEY `rule_name` (`rule_name`),
+  KEY `idx-auth_item-type` (`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `lab7_auth_item`
+--
+
+INSERT INTO `lab7_auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
+('admin', 1, 'Administrator of this application', NULL, NULL, 1536759353, 1536759353),
+('employee', 1, 'Employee of this site/company who has lower rights than admin', NULL, NULL, 1536759353, 1536759353),
+('manageUsers', 2, 'Allows admin+ roles to manage users', NULL, NULL, 1536759353, 1536759353),
+('member', 1, 'Authenticated user, equal to "@"', NULL, NULL, 1536759353, 1536759353),
+('premium', 1, 'Premium users. Authenticated users with extra powers', NULL, NULL, 1536759353, 1536759353),
+('theCreator', 1, 'You!', NULL, NULL, 1536759353, 1536759353),
+('usePremiumContent', 2, 'Allows premium+ roles to use premium content', NULL, NULL, 1536759353, 1536759353);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lab7_auth_item_child`
+--
+
+CREATE TABLE IF NOT EXISTS `lab7_auth_item_child` (
+  `parent` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `child` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`parent`,`child`),
+  KEY `child` (`child`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `lab7_auth_item_child`
+--
+
+INSERT INTO `lab7_auth_item_child` (`parent`, `child`) VALUES
+('theCreator', 'admin'),
+('admin', 'employee'),
+('admin', 'manageUsers'),
+('premium', 'member'),
+('employee', 'premium'),
+('premium', 'usePremiumContent');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lab7_auth_rule`
+--
+
+CREATE TABLE IF NOT EXISTS `lab7_auth_rule` (
+  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `data` text COLLATE utf8_unicode_ci,
+  `created_at` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `lab7_auth_rule`
+--
+
+INSERT INTO `lab7_auth_rule` (`name`, `data`, `created_at`, `updated_at`) VALUES
+('isAuthor', 'O:25:"app\\rbac\\rules\\AuthorRule":3:{s:4:"name";s:8:"isAuthor";s:9:"createdAt";i:1536759353;s:9:"updatedAt";i:1536759353;}', 1536759353, 1536759353);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lab7_user`
+--
+
+CREATE TABLE IF NOT EXISTS `lab7_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `status` smallint(6) NOT NULL,
+  `auth_key` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `password_reset_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `account_activation_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` int(11) NOT NULL,
+  `updated_at` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `password_reset_token` (`password_reset_token`),
+  UNIQUE KEY `account_activation_token` (`account_activation_token`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `lab7_user`
+--
+
+INSERT INTO `lab7_user` (`id`, `username`, `email`, `password_hash`, `status`, `auth_key`, `password_reset_token`, `account_activation_token`, `created_at`, `updated_at`) VALUES
+(1, 'knikola', 'nikola_karpic@live.com', '$2y$13$z.O.l9TWuFKIKnrF3ztwjeHPEWvNfC0ISnbBZlhVZmXCK5u2OtxlS', 10, 'ZUFaQvAVsKlDBDKDuzW05yTQt8LUDqai', NULL, NULL, 1536760508, 1536760508),
+(2, 'marko', 'piweyiri@bit-degree.com', '$2y$13$0TEipOInbIShpxFCdSgMEOXII4zkjWWoqjR.fGpolJTyR1l0CJl6u', 10, 'oVXVEz5C957p_Yz4epZsbp4pmwmAfUCM', NULL, NULL, 1537174035, 1537174035),
+(3, 'milko', 'wobu@travala10.com', '$2y$13$jGYYvo4IfDBWdq92dlkOhOyaaGkM8O5CBR8fIY0CLp56GfDaDGnTu', 10, 'UYTXgG_ovWI3nrZNqPmHqPYq6J2yeHQf', NULL, NULL, 1537175035, 1537175035),
+(4, 'milan', 'buyip@bit-degree.com', '$2y$13$aep94ROM75lKXh6uoSnE.ewksj7EY/4jZq66Xu1vGt7XyN36qVQCG', 10, '6rPDlOoBRGGrsH1UVcQ1stHlT79gQvwg', NULL, NULL, 1537175077, 1537175077),
+(5, '12', '12@live.com', '$2y$13$yrXRy1OhHQndX44xi4SlxeAbznQa8nzmn3hEcs5PvBVY8f30aZWw6', 10, '-kubOfLklUtaj1Uhow5FvKx3xqweQ8Ox', NULL, NULL, 1537280216, 1537280216);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `Person`
+--
+ALTER TABLE `Person`
+  ADD CONSTRAINT `FKCallingIDforPerson` FOREIGN KEY (`CallingID`) REFERENCES `Calling` (`ID`);
+
+--
+-- Constraints for table `PrimaryResource`
+--
+ALTER TABLE `PrimaryResource`
+  ADD CONSTRAINT `FKRoomIDforPrimaryResource` FOREIGN KEY (`RoomID`) REFERENCES `Room` (`ID`),
+  ADD CONSTRAINT `FKCategoryIDforPrimaryResource` FOREIGN KEY (`CategoryID`) REFERENCES `Category` (`ID`),
+  ADD CONSTRAINT `FKConditionIDforPrimaryResource` FOREIGN KEY (`ConditionID`) REFERENCES `Condition` (`ID`),
+  ADD CONSTRAINT `FKPersonIDforPrimaryResource` FOREIGN KEY (`PersonID`) REFERENCES `Person` (`ID`);
+
+--
+-- Constraints for table `Room`
+--
+ALTER TABLE `Room`
+  ADD CONSTRAINT `FKBuildingIDforRoom` FOREIGN KEY (`BuildingID`) REFERENCES `Building` (`ID`);
+
+--
+-- Constraints for table `Transit`
+--
+ALTER TABLE `Transit`
+  ADD CONSTRAINT `FKPrimaryResourceIDforTransit` FOREIGN KEY (`PrimaryResourceID`) REFERENCES `PrimaryResource` (`ID`),
+  ADD CONSTRAINT `FKPersonIDFromforTransit` FOREIGN KEY (`PersonIDFrom`) REFERENCES `Person` (`ID`),
+  ADD CONSTRAINT `FKPersonIDToforTransit` FOREIGN KEY (`PersonIDTo`) REFERENCES `Person` (`ID`),
+  ADD CONSTRAINT `FKRoomIDFromforTransit` FOREIGN KEY (`RoomIDFrom`) REFERENCES `Room` (`ID`),
+  ADD CONSTRAINT `FKRoomIDToforTransit` FOREIGN KEY (`RoomIDTo`) REFERENCES `Room` (`ID`);
+
+--
+-- Constraints for table `lab7_auth_assignment`
+--
+ALTER TABLE `lab7_auth_assignment`
+  ADD CONSTRAINT `lab7_auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `lab7_auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `lab7_auth_item`
+--
+ALTER TABLE `lab7_auth_item`
+  ADD CONSTRAINT `lab7_auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `lab7_auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `lab7_auth_item_child`
+--
+ALTER TABLE `lab7_auth_item_child`
+  ADD CONSTRAINT `lab7_auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `lab7_auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `lab7_auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `lab7_auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
